@@ -18,6 +18,10 @@
 
 - lxml 
   * It can be installed using `sudo pip install lxml` or `sudo apt-get install python-lxml`
+  
+**Installation Guide**
+    
+- To install all the dependencies from the [requirements.txt](https://github.com/NJACKWinterOfCode/IMDB_Portal/blob/master/requirements.txt) use the command `pip install -r requirements.txt`
 
 
 
