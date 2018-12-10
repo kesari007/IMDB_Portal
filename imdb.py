@@ -12,6 +12,16 @@ os.system('clear')
 
 status = open('info.txt', 'a')
 
+def popular_tv_shows():
+    url = 'https://api.themoviedb.org/3/tv/popular?api_key=ffb07b773769d55c36ccd83845385205&language=en-US'
+    response = requests.get(url)
+    response_json = json.loads(response.text)
+
+    print ("\n"+"----------------------------------TOP 10"+" TV SHOWS ACCORDING TO IMDB RATINGS---------------------------------"+"\n\n")
+    status.write ("\n"+"---------------------------TOP 10"+" TV SHOWS ACCORDING TO IMDB RATINGS-----------------------------"+"\n\n")
+    
+    for x in range (10):
+        print(str(x+1)+".\t "+response_json['results'][x]['name'])
 
 def info_movie():
     name = raw_input('\nEnter the title of the movie: ')
@@ -154,14 +164,18 @@ def driver():
     status.write("\\\n\n\t\t\t\t\t---------------------IMDB PORTAL----------------------")
     choice = int(raw_input('Enter your choice:\n\n1) Search movie information by title\n'
                            '2) Show top rated movies\n'
-                           '3) Rename folder with IMDB rating and year of release added to it\n\nInput: '))
+                           '3) Rename folder with IMDB rating and year of release added to it\n'
+                           '4) Show top TV shows'
+                           '\n\nInput: '))
     
     if choice == 1:
         info_movie()
     elif choice == 2:
         top_movies()
-    else:
+    elif choice == 3:
         folder()
+    else:
+    	popular_tv_shows()
             
         
 driver()
