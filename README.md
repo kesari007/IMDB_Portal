@@ -18,9 +18,15 @@
 
 - json
 
+- Tkinter/tkinter
+
 **Installation Guide**
     
 - To install all the dependencies in the [requirements.txt](https://github.com/NJACKWinterOfCode/IMDB_Portal/blob/master/requirements.txt) file, use command `pip install -r requirements.txt`
+
+- The project has one more dependency : Python Tkinter
+   To install Tkinter on Python 2.x  : `sudo apt-get install python-tk`
+   To install Tkinter on Python 3.x  : `sudo apt-get install python3-tk`
 
 
 It is implemented using the **BeautifulSoup** module of **bs4** , **requests** module, along with **os**, **sys** and **json** modules.
@@ -35,6 +41,7 @@ It is implemented using the **BeautifulSoup** module of **bs4** , **requests** m
 
 **Instructions before using:** If you are going to use the third feature, make sure that all the folders' name contain only the movie name, and no other extra character or whitespace should be left. Also ensure you enter the correct and complete path (e.g.: _/home/user-name/Videos/_  or _/media/user-name/New Volume/Videos_).
 
-**To run the script:** Type `python imdb.py` from your terminal.
+**To run the script in CUI Mode:** Type `python imdb.py` from your terminal.
+**To run the script in GUI Mode:** Type `python app.py` from your terminal.
 
 All the results will be displayed on the terminal, as well as saved in a file called _info.txt_ in the same directory where the script is present.
