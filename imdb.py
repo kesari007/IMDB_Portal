@@ -12,16 +12,18 @@ os.system('clear')
 
 status = open('info.txt', 'a')
 
+
 def popular_tv_shows():
     url = 'https://api.themoviedb.org/3/tv/popular?api_key=ffb07b773769d55c36ccd83845385205&language=en-US'
     response = requests.get(url)
     response_json = json.loads(response.text)
 
-    print ("\n"+"----------------------------------TOP 10"+" TV SHOWS ACCORDING TO IMDB RATINGS---------------------------------"+"\n\n")
-    status.write ("\n"+"---------------------------TOP 10"+" TV SHOWS ACCORDING TO IMDB RATINGS-----------------------------"+"\n\n")
-    
-    for x in range (10):
+    print("\n"+"----------------------------------TOP 10"+" TV SHOWS ACCORDING TO IMDB RATINGS---------------------------------"+"\n\n")
+    status.write("\n"+"---------------------------TOP 10"+" TV SHOWS ACCORDING TO IMDB RATINGS-----------------------------"+"\n\n")
+
+    for x in range(10):
         print(str(x+1)+".\t "+response_json['results'][x]['name'])
+
 
 def info_movie():
     name = raw_input('\nEnter the title of the movie: ')
@@ -51,7 +53,10 @@ def info_movie():
         html = response.text
         soup = bs4.BeautifulSoup(html, "lxml")
         data = soup.select('.ratingValue')
-        movie_rating = data[0].get_text('', strip=True)
+        if data:
+            movie_rating = data[0].get_text('', strip=True)
+        else:
+            movie_rating = "-"
 
         if sys.version[0] != '3':
             movie_title = movie_title.encode('ascii', 'ignore')
@@ -65,7 +70,10 @@ def info_movie():
         print("\n\t RELEASED ON : \t\t" + movie_year)
         print("\n\t DURATION    : \t\t" + str(movie_duration) + " mins")
         # print("\n\t LANGUAGE    : \t\t" + movie_language[0]['name'])
-        print("\n\t GENRE       : \t\t" + movie_genre[0]['name'])
+        if movie_genre:
+            print("\n\t GENRE       : \t\t" + movie_genre[0]['name'])
+        else:
+            print("\n\t GENRE       : \t\t" + "-")
         print("\n\t PLOT        : \t\t" + movie_plot)
 
         status.write("\n\n--------------------------------------MOVIE INFORMATION---------------------------------\n")
@@ -74,14 +82,17 @@ def info_movie():
         status.write("\n\t RELEASED ON : \t\t" + movie_year)
         status.write("\n\t DURATION    : \t\t" + str(movie_duration) + " mins")
         # status.write("\n\t LANGUAGE    : \t\t" + movie_language[0]['name'])
-        status.write("\n\t GENRE       : \t\t" + movie_genre[0]['name'])
+        if movie_genre:
+            status.write("\n\t GENRE       : \t\t" + movie_genre[0]['name'])
+        else:
+            status.write("\n\t GENRE       : \t\t" + "-")
         status.write("\n\t PLOT        : \t\t" + movie_plot)
 
     except KeyError:
         print("\nNo such movie titled '" + name + "' found!\n")
         status.write("\nNo such movie titled '" + name + "' found!\n")
-    
-    
+
+
 def top_movies():
     rank = int(raw_input("\nEnter n, to display Top 'n' movies: "))
     rank_url = 'http://www.imdb.com/chart/top'
@@ -95,7 +106,7 @@ def top_movies():
     status.write("\n" + "---------------------------TOP " + str(rank) +
                  " MOVIES ACCORDING TO IMDB RATINGS-----------------------------" + "\n\n")
     status.write(" \t   TITLE\t\t\t\t\t\t\t\t\t\t   IMDB RATING\n\n")
-    
+
     for row in range(0, rank):
         movie_data = rows[row].select('td')
         movie_name = movie_data[1].get_text(' ', strip=True)
@@ -105,14 +116,14 @@ def top_movies():
             movie_details = movie_details.encode('ascii', 'ignore')
         status.write(movie_details)
         print(movie_details)
-        
-        
+
+
 def folder():
     path = raw_input("\n\nEnter the complete path of the directory where your movies are present: ")
     dirs = os.listdir(path)
     print("Showing results for the path: " + path + "\n")
     status.write('Showing results for the path: ' + path + '\n')
-    
+
     for i in range(len(dirs)):
         dir_name = dirs[i]
         if dir_name == '.DS_Store':
@@ -140,7 +151,10 @@ def folder():
             html = response.text
             soup = bs4.BeautifulSoup(html, "lxml")
             data = soup.select('.ratingValue strong span')
-            movie_rating = data[0].get_text('', strip=True)
+            if data:
+                movie_rating = data[0].get_text('', strip=True)
+            else:
+                movie_rating = "-"
 
             if sys.version[0] != '3':
                 dir_name = dir_name.encode('ascii', 'ignore')
@@ -167,7 +181,7 @@ def driver():
                            '3) Rename folder with IMDB rating and year of release added to it\n'
                            '4) Show top TV shows'
                            '\n\nInput: '))
-    
+
     if choice == 1:
         info_movie()
     elif choice == 2:
@@ -175,9 +189,9 @@ def driver():
     elif choice == 3:
         folder()
     else:
-    	popular_tv_shows()
-            
-        
+        popular_tv_shows()
+
+
 driver()
 while 1 > 0:
     repeat = raw_input("\n\nDo you want to try again?(type 'Yes'/'Y'/'y' or else press anything) ")
